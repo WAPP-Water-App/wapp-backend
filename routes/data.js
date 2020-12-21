@@ -7,7 +7,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get('/', getData)
 
-
+// gets the data
 function getData(req, res){
 
 

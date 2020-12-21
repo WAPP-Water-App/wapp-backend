@@ -9,6 +9,9 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get('/', getProfile);
 
+// parses authorization header for access token
+// looks up user profile info
+// sends it back
 async function getProfile(req, res) {
 
     accessToken = parseToken(req);

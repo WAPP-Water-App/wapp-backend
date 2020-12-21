@@ -14,10 +14,12 @@ app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: false }));
 app.use('/', routes);
 
+// 400 errors handler
 app.use(function (req, res, next) {
   res.status(404);
 });
 
+//500 error handler
 app.use(function (err, req, res, next) {
   console.error(err);
   res.status(500);
