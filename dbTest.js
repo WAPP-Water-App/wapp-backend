@@ -92,159 +92,159 @@ User.create({
 
 Data.create({
     google_id: "97852464123",
-    date: 12142020,
+    date: 2020-12-14,
     progress: 100,
     weekday: "Monday"
 })
 
 Data.create({
     google_id: "97852464123",
-    date: 12152020,
+    date: 2020-12-15,
     progress: 90,
     weekday: "Tuesday"
 })
 
 Data.create({
     google_id: "97852464123",
-    date: 12162020,
+    date: 2020-12-16,
     progress: 90,
     weekday: "Wednesday"
 })
 
 Data.create({
     google_id: "97852464123",
-    date: 12172020,
+    date: 2020-12-17,
     progress: 100,
     weekday: "Thursday"
 })
 
 Data.create({
     google_id: "97852464123",
-    date: 12182020,
+    date: 2020-12-18,
     progress: 80,
     weekday: "Friday"
 })
 
 Data.create({
     google_id: "97852464123",
-    date: 12192020,
+    date: 2020-12-19,
     progress: 70,
     weekday: "Saturday"
 })
 
 Data.create({
     google_id: "97852464123",
-    date: 12202020,
+    date: 2020-12-20,
     progress: 100,
     weekday: "Sunday"
 })
 Data.create({
     google_id: "97852464123",
-    date: 12212020,
+    date: 2020-12-21,
     progress: 90,
     weekday: "Monday"
 })
 
 Data.create({
     google_id: "1785434123",
-    date: 12172020,
+    date: 2020-12-17,
     progress: 60,
     weekday: "Thursday"
 })
 Data.create({
     google_id: "1785434123",
-    date: 12182020,
+    date: 2020-12-18,
     progress: 50,
     weekday: "Frisday"
 })
 Data.create({
     google_id: "1785434123",
-    date: 12192020,
+    date: 2020-12-19,
     progress: 80,
     weekday: "Saturday"
 })
 Data.create({
     google_id: "1785434123",
-    date: 12202020,
+    date: 2020-12-20,
     progress: 60,
     weekday: "Sunday"
 })
 Data.create({
     google_id: "1785434123",
-    date: 12212020,
+    date: 2020-12-21,
     progress: 90,
     weekday: "Monday"
 })
 Data.create({
     google_id: "18577539995",
-    date: 12192020,
+    date: 2020-12-19,
     progress: 20,
     weekday: "Saturday"
 })
 Data.create({
     google_id: "18577539995",
-    date: 12202020,
+    date: 2020-12-20,
     progress: 30,
     weekday: "Sunday"
 })
 Data.create({
     google_id: "18577539995",
-    date: 12212020,
+    date: 2020-12-21,
     progress: 40,
     weekday: "Monday"
 })
 
 Data.create({
     google_id: "16174353340",
-    date: 12142020,
+    date: 2020-12-14,
     progress: 100,
     weekday: "Monday"
 })
 
 Data.create({
     google_id: "16174353340",
-    date: 12152020,
+    date: 2020-12-15,
     progress: 90,
     weekday: "Tuesday"
 })
 
 Data.create({
     google_id: "16174353340",
-    date: 12162020,
+    date: 2020-12-16,
     progress: 90,
     weekday: "Wednesday"
 })
 
 Data.create({
     google_id: "16174353340",
-    date: 12172020,
+    date: 2020-12-17,
     progress: 100,
     weekday: "Thursday"
 })
 
 Data.create({
     google_id: "16174353340",
-    date: 12182020,
+    date: 2020-12-18,
     progress: 80,
     weekday: "Friday"
 })
 
 Data.create({
     google_id: "16174353340",
-    date: 12192020,
+    date: 2020-12-19,
     progress: 70,
     weekday: "Saturday"
 })
 
 Data.create({
     google_id: "16174353340",
-    date: 12202020,
+    date: 2020-12-20,
     progress: 100,
     weekday: "Sunday"
 })
 Data.create({
     google_id: "16174353340",
-    date: 12212020,
+    date: 2020-12-21,
     progress: 90,
     weekday: "Monday"
 })
