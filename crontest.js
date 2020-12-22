@@ -12,7 +12,10 @@
 const date = new Date()
 //"01-12-2020"
 
-//'2002-12-09'
 
-console.log(date)
-console.log(`${date.getFullYear()}-${date.getDate()}-${date.getDate()}`)
+
+console.log('hi')
+// console.log(date.valueOf()+3599)
+console.log(new Date())
+console.log(date.setSeconds(date.getSeconds()+3599))
+console.log(new Date(date.setSeconds(date.getSeconds()+3599)))
