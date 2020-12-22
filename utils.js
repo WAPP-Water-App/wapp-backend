@@ -1,5 +1,5 @@
-function parseToken(req) {
-    return req.headers.authorization.slice(7, req.headers.authorization.length);
-  }
+function unauthorized(res) {
+  res.status(401).send();
+}
 
-  module.exports = { parseToken };
+module.exports = { unauthorized };
