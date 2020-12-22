@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser');
+const db = require('../models');
+const User = db.User;
+const Data = db.Data;
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -8,11 +11,17 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.get('/', getData)
 
 // gets the data
-function getData(req, res){
+async function getData(req, res){
 
+    const userGID = req.headers['x-wapp-user'];
 
-    // send all the fucking data, we'll parse it in react
-    res.send('hello')
+    const userData = await Data.findAll(
+        {
+          google_id: userGID,
+        }
+      )
+
+    res.json(userData)
 }
 
 
