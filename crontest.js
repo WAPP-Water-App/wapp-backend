@@ -9,13 +9,26 @@
 
 // task.start();
 
-const date = new Date()
-//"01-12-2020"
 
 
+const start = 17;
+const end = 22;
+const reminder = 2;
 
-console.log('hi')
-// console.log(date.valueOf()+3599)
-console.log(new Date())
-console.log(date.setSeconds(date.getSeconds()+3599))
-console.log(new Date(date.setSeconds(date.getSeconds()+3599)))
+const schedule = [];
+
+for (let i=start; i<=end; i+=reminder){
+    console.log(i)
+    schedule.push(i)
+
+
+}
+
+console.log(schedule)
+
+
+date = new Date()
+
+const testDate = new Date(date.setHours(23))
+
+console.log(testDate.getHours())

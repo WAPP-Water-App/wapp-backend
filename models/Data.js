@@ -5,7 +5,8 @@ const dataSchema = new Schema({
     google_id: String,
     date: Date,
     progress: Number,
-    weekday: String
+    weekday: String,
+    status: [String]
 })
 
 module.exports = Data = mongoose.model('Data', dataSchema);

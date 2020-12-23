@@ -1,26 +1,58 @@
 const mongoose = require('mongoose');
 const { userInfo } = require('os');
-const db = require('./models')
+const { writeHeapSnapshot } = require('v8');
+const db = require('./models');
 const User = db.User;
 const Data = db.Data;
+const Scheduler = db.Scheduler;
+
+// Scheduler.findOne({
+//     time:2,
+//     users: ['001']
+// }, {upsert: true})
+
+const id = '1';
+const schedule = [1, 5, 10, 11];
+
+test = async () => {
+  console.log('testing a loop find');
+
+  userid = '001';
 
 
-User.create({
-    google_id: "97852464123",
-    access_token: "asd4465sdfasd65",
-    refresh_token: "as54d5sasa63a4g6d6h",
-    id_token: "f4gd6ssd65as456fd",
-    expiry_date: 0475,
-    settings: {
-        age: 35,
-        weight: 150,
-        height: 150,
-        startTime: 900,
-        endTime: 2200,
-        reminderNumber: 13
-    }
+for (const reminderTime of schedule){
 
-})
+    console.log(reminderTime)
+
+    await Scheduler.updateOne(
+        { time: reminderTime},
+        { $addToSet: { users: `${userid}` } },
+        { upsert: true}
+      );
+
+
+}
+
+};
+
+test();
+
+// User.create({
+//     google_id: "97852464123",
+//     access_token: "asd4465sdfasd65",
+//     refresh_token: "as54d5sasa63a4g6d6h",
+//     id_token: "f4gd6ssd65as456fd",
+//     expiry_date: 0475,
+//     settings: {
+//         age: 35,
+//         weight: 150,
+//         height: 150,
+//         startTime: 900,
+//         endTime: 2200,
+//         reminderNumber: 13
+//     }
+
+// })
 
 // User.create({
 //     google_id: "1785434123",
@@ -248,5 +280,3 @@ User.create({
 //     progress: 90,
 //     weekday: "Monday"
 // })
-
-

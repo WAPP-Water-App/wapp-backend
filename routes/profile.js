@@ -6,6 +6,7 @@ const axios = require('axios');
 // const mongoose = require('mongoose');
 const db = require('../models');
 const User = db.User;
+const Scheduler = db.Scheduler;
 
 // MIDDLEWARE
 router.use(bodyParser.json());
@@ -41,8 +42,6 @@ async function getProfile(req, res) {
     )
     .catch(() => null);
 
-  console.log(userInfo);
-
   if (!userInfo) {
     unauthorized(res);
   } else {
@@ -60,35 +59,61 @@ async function getSettings(req, res) {
     { settings: true, _id: false }
   );
 
-console.log(userSettings)
-
-
   res.json(userSettings);
 }
 
-function addSettings(req, res) {
+async function addSettings(req, res) {
   const userGID = req.headers['x-wapp-user'];
+  const settings = req.body;
+  // calculate + update the schedule
+  const schedule = [];
+  for (
+    let i = req.body.startTime;
+    i <= req.body.endTime;
+    i += req.body.reminder
+  ) {
+    schedule.push(i);
+  }
 
-  //get incoming form data here
-
-  User.findOne(
+  //update the user's settings + schedule in the database
+  await User.updateOne(
     {
       google_id: userGID,
     },
-    { access_token: true, _id: false }
-  ).limit(1);
+    {
+      schedule,
+      settings,
+    }
+  );
+
+  // update the schedule
+  // Step 1
+  // remove any previous instances of user in the schedule
+  await Scheduler.updateMany(
+    {},
+    { $pull: { users: `${userGID}` } },
+    { multi: true }
+  );
+
+  // step 2
+  // loop over their schedule, add them into each relevant time document's user array
+  for (const reminderTime of schedule) {
+    await Scheduler.updateOne(
+      { time: reminderTime },
+      { $addToSet: { users: `${userGID}` } },
+      { upsert: true }
+    );
+  }
 
   res.status(201).send();
 }
 
 function updateSettings(req, res) {
-  const userGID = req.headers['x-wapp-user'];
-
-  User.findOne({
-    google_id: userGID,
-  }).limit(1);
-
-  res.status(201).send();
+  // const userGID = req.headers['x-wapp-user'];
+  // User.findOne({
+  //   google_id: userGID,
+  // }).limit(1);
+  // res.status(201).send();
 }
 
 function clearSettings(req, res) {
@@ -96,11 +121,18 @@ function clearSettings(req, res) {
   User.findOne(
     {
       google_id: userGID,
+    },
+    {
+      age: 25,
+      weight: 50,
+      height: 165,
+      startTime: 900,
+      endTime: 2200,
+      reminder: 13,
     }
-    //set default settings here
-  ).limit(1);
-
-  res.status(204).send();
+  )
+    .res.status(204)
+    .send();
 }
 
 module.exports = router;
