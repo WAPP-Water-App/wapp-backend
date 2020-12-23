@@ -52,19 +52,14 @@ async function refresh(userGID, refreshToken) {
     },
   }).catch(console.error);
 
-  console.log('WE REFRESEGD', response);
-
   if (response) {
     // calculate new expiration time
     const expiryDate = new Date();
     // add the # of seconds until it expires
     expiryDate.setSeconds(expiryDate.getSeconds() + response.data.expires_in);
 
-    console.log('now', new Date());
-    console.log('expires in an hour', expiryDate);
-
     // TODO: might need to update this later to a different function
-    User.findOneAndUpdate(
+   await User.updateOne(
       { google_id: userGID },
       {
         access_token: response.data.access_token,

@@ -4,15 +4,9 @@
 const router = require('express').Router();
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const { GoogleAuth } = require('google-auth-library');
-const { oauth2Client, scopes, generateAuthUrl } = require('../constants');
-// const mongoose = require('mongoose');
+const { oauth2Client, generateAuthUrl } = require('../constants');
 const db = require('../models');
 const User = db.User;
-
-const auth = new GoogleAuth({
-  scopes: 'https://www.googleapis.com/auth/cloud-platform',
-});
 
 // MIDDLEWARE
 router.use(bodyParser.json());
@@ -44,13 +38,16 @@ async function verify(req, res) {
   if (!userInfo) {
     console.log('error getting user');
   } else {
+
+
     // if
     // add the user to the database
     const findUser = await User.findOne({
       google_id: userInfo.data.sub,
-    }).limit(1);
+    });
 
-    if (!findUser.length) {
+    if (!findUser) {
+
       User.create({
         google_id: userInfo.data.sub,
         access_token: tokens.access_token,

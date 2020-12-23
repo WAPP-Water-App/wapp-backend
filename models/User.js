@@ -7,7 +7,7 @@ const settingsSchema = new Schema({
     height: Number,
     startTime: Number,
     endTime: Number,
-    reminderNumber: Number,
+    reminder: Number,
 })
 
 const userSchema = new Schema({
@@ -16,6 +16,7 @@ const userSchema = new Schema({
     refresh_token: String,
     id_token: String,
     expiry_date: Number,
+    schedule: [String],
     settings: settingsSchema,
 })
 
