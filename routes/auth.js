@@ -26,7 +26,9 @@ function authorize(req, res) {
 
 // Code is sent from the react callback page, and we exchange the code for the user's access token
 async function verify(req, res) {
-  const { tokens } = await oauth2Client.getToken(req.body.code);
+  const { tokens } = await oauth2Client
+    .getToken(req.body.code)
+    .catch(() => null);
 
   // get the user data
   const userInfo = await axios
@@ -38,8 +40,6 @@ async function verify(req, res) {
   if (!userInfo) {
     console.log('error getting user');
   } else {
-
-
     // if
     // add the user to the database
     const findUser = await User.findOne({
@@ -47,7 +47,6 @@ async function verify(req, res) {
     });
 
     if (!findUser) {
-
       User.create({
         google_id: userInfo.data.sub,
         access_token: tokens.access_token,
@@ -55,19 +54,6 @@ async function verify(req, res) {
         id_token: tokens.id_token,
         expiry_date: tokens.expiry_date,
       });
-
-      //TODO: see if this works
-      // let newUser = User.findOneAndUpdate(
-      //   { google_id: userInfo.data.sub },
-      //   {
-      //     google_id: userInfo.data.sub,
-      //     access_token: tokens.access_token,
-      //     refresh_token: tokens.refresh_token,
-      //     id_token: tokens.id_token,
-      //     expiry_date: tokens.expiry_date,
-      //   },
-      //   { upsert: true, new: true, setDefaultsOnInsert: true }
-      // );
     }
 
     //send back the google_id
@@ -89,7 +75,7 @@ async function refresh(req, res) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-  });
+  }).catch(() => null);
 }
 
 module.exports = router;

@@ -25,11 +25,11 @@ async function getData(req, res) {
       schedule: true,
       _id: false,
     }
-  );
+  ).catch(() => null);
 
-
-
-
+  if (!userData) {
+    console.log('error getting all user data');
+  }
   res.json(userData);
 }
 
@@ -38,22 +38,27 @@ async function getDailyData(req, res) {
   const userGID = req.headers['x-wapp-user'];
 
   const date = new Date();
-  const dateString = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+  const dateString = `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()}`;
 
   const userData = await Data.findOne({
     google_id: userGID,
     date: dateString,
-  });
+  }).catch(()=>null);
 
-  console.log(userData);
-
+  if (!userData) {
+    console.log('error getting daily user data');
+  }
   res.status(200).json(userData);
 }
 
 async function updateDailyData(req, res) {
   const userGID = req.headers['x-wapp-user'];
   const date = new Date();
-  const dateString = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+  const dateString = `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()}`;
 
   await Data.updateOne(
     {
@@ -66,7 +71,7 @@ async function updateDailyData(req, res) {
       status: req.body.status,
     },
     { upsert: true }
-  );
+  ).catch((err)=>console.log(err));
 
   res.status(201).send();
 }
@@ -76,7 +81,11 @@ async function getAllData(req, res) {
 
   const userData = await Data.find({
     google_id: userGID,
-  });
+  }).catch(()=>null);
+
+  if (!userData) {
+    console.log('error getting daily user data for all days');
+  }
 
   res.status(200).json(userData);
 }

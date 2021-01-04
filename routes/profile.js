@@ -33,19 +33,25 @@ async function getProfile(req, res) {
       google_id: userGID,
     },
     { access_token: true, _id: false }
-  ).limit(1);
-
-  // get the user's information
-  const userInfo = await axios
-    .get(
-      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${findUser.access_token}`
-    )
+  )
+    .limit(1)
     .catch(() => null);
 
-  if (!userInfo) {
+  if (!findUser) {
     unauthorized(res);
   } else {
-    res.status(200).json(userInfo.data);
+    // get the user's information
+    const userInfo = await axios
+      .get(
+        `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${findUser.access_token}`
+      )
+      .catch(() => null);
+
+    if (!userInfo) {
+      unauthorized(res);
+    } else {
+      res.status(200).json(userInfo.data);
+    }
   }
 }
 
@@ -57,7 +63,11 @@ async function getSettings(req, res) {
       google_id: userGID,
     },
     { settings: true, _id: false }
-  );
+  ).catch(() => null);
+
+  if (!userSettings) {
+    console.log('error getting user settings');
+  }
 
   res.json(userSettings);
 }
@@ -84,7 +94,7 @@ async function addSettings(req, res) {
       schedule,
       settings,
     }
-  );
+  ).catch((err) => console.log(err));
 
   // update the schedule
   // Step 1
@@ -93,7 +103,7 @@ async function addSettings(req, res) {
     {},
     { $pull: { users: `${userGID}` } },
     { multi: true }
-  );
+  ).catch((err) => console.log(err));
 
   // step 2
   // loop over their schedule, add them into each relevant time document's user array
@@ -102,7 +112,7 @@ async function addSettings(req, res) {
       { time: reminderTime },
       { $addToSet: { users: `${userGID}` } },
       { upsert: true }
-    );
+    ).catch((err) => console.log(err));
   }
 
   res.status(201).send();
@@ -117,8 +127,6 @@ function updateSettings(req, res) {
 }
 
 async function reset(req, res) {
-  console.log('resetting settings');
-
   const userGID = req.headers['x-wapp-user'];
   await User.findOne(
     {
@@ -132,7 +140,7 @@ async function reset(req, res) {
       endTime: 2200,
       reminder: 13,
     }
-  );
+  ).catch((err) => console.log(err));
   res.status(204).send();
 }
 

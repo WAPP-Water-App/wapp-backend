@@ -10,7 +10,6 @@ async function validate(req, res, next) {
   // check the headers to see if they have a user session id
 
   const userGID = req.headers['x-wapp-user'];
-
   // if valid, find them in the db based on their google id
   if (userGID) {
     const getUser = await User.findOne(
@@ -18,18 +17,23 @@ async function validate(req, res, next) {
         google_id: userGID,
       },
       { expiry_date: true, refresh_token: true, _id: false }
-    ).limit(1);
+    )
+      .limit(1)
+      .catch(() => null);
 
-    // compare the current and expiry date
-    const expiryDate = new Date(getUser.expiry_date).valueOf();
-    const currentDate = new Date().valueOf();
+    console.log('getting user', getUser);
+    if (getUser) {
+      // compare the current and expiry date
+      const expiryDate = new Date(getUser.expiry_date).valueOf();
+      const currentDate = new Date().valueOf();
 
-    // 5 minutes until expiry
-    const minutes = 5;
-    // if expiry date is less than 5 minutes
-    // refresh their token
-    if (expiryDate - currentDate < minutes * 60 * 1000) {
-      refresh(userGID, getUser.refresh_token);
+      // 5 minutes until expiry
+      const minutes = 5;
+      // if expiry date is less than 5 minutes
+      // refresh their token
+      if (expiryDate - currentDate < minutes * 60 * 1000) {
+        refresh(userGID, getUser.refresh_token);
+      }
     }
     next();
   } else {
@@ -50,7 +54,7 @@ async function refresh(userGID, refreshToken) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-  }).catch(console.error);
+  }).catch((err) => console.log(err));
 
   if (response) {
     // calculate new expiration time
@@ -58,15 +62,14 @@ async function refresh(userGID, refreshToken) {
     // add the # of seconds until it expires
     expiryDate.setSeconds(expiryDate.getSeconds() + response.data.expires_in);
 
-    // TODO: might need to update this later to a different function
-   await User.updateOne(
+    await User.updateOne(
       { google_id: userGID },
       {
         access_token: response.data.access_token,
         id_token: response.data.id_token,
         expiry_date: expiryDate.valueOf(),
       }
-    );
+    ).catch((err) => console.log(err));
   }
 }
 
