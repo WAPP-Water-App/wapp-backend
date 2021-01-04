@@ -10,6 +10,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.get('/', getData);
 router.get('/daily', getDailyData);
 router.put('/daily', updateDailyData);
+router.get('/alldays', getAllData);
 
 // gets the user data
 async function getData(req, res) {
@@ -26,24 +27,25 @@ async function getData(req, res) {
     }
   );
 
+
+
+
   res.json(userData);
 }
 
 // gets the data
 async function getDailyData(req, res) {
-
-  console.log('endpoint reached')
   const userGID = req.headers['x-wapp-user'];
 
   const date = new Date();
-  const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+  const dateString = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
 
   const userData = await Data.findOne({
     google_id: userGID,
-    date: dateString
+    date: dateString,
   });
 
-  console.log(userData)
+  console.log(userData);
 
   res.status(200).json(userData);
 }
@@ -51,22 +53,32 @@ async function getDailyData(req, res) {
 async function updateDailyData(req, res) {
   const userGID = req.headers['x-wapp-user'];
   const date = new Date();
-  const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-
-
-  console.log(req.body)
+  const dateString = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
 
   await Data.updateOne(
     {
       google_id: userGID,
-      date: dateString
+      date: dateString,
     },
-    { progress: req.body.progress, weekday: date.getDay(), status: req.body.status },
+    {
+      progress: req.body.progress,
+      weekday: date.getDay(),
+      status: req.body.status,
+    },
     { upsert: true }
   );
 
-
   res.status(201).send();
+}
+
+async function getAllData(req, res) {
+  const userGID = req.headers['x-wapp-user'];
+
+  const userData = await Data.find({
+    google_id: userGID,
+  });
+
+  res.status(200).json(userData);
 }
 
 module.exports = router;
