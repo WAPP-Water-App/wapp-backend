@@ -17,7 +17,7 @@ router.get('/', getProfile);
 router.get('/settings', getSettings);
 router.post('/settings', addSettings);
 router.put('/settings', updateSettings);
-router.delete('/settings', clearSettings);
+router.delete('/reset', reset);
 
 // FUNCTIONS
 
@@ -116,9 +116,11 @@ function updateSettings(req, res) {
   // res.status(201).send();
 }
 
-function clearSettings(req, res) {
+async function reset(req, res) {
+  console.log('resetting settings');
+
   const userGID = req.headers['x-wapp-user'];
-  User.findOne(
+  await User.findOne(
     {
       google_id: userGID,
     },
@@ -130,9 +132,8 @@ function clearSettings(req, res) {
       endTime: 2200,
       reminder: 13,
     }
-  )
-    .res.status(204)
-    .send();
+  );
+  res.status(204).send();
 }
 
 module.exports = router;
