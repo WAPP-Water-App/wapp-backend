@@ -60,6 +60,8 @@ async function updateDailyData(req, res) {
     date.getMonth() + 1
   }-${date.getDate()}`;
 
+console.log(req.body)
+
   await Data.updateOne(
     {
       google_id: userGID,
