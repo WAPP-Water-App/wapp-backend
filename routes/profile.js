@@ -127,20 +127,30 @@ function updateSettings(req, res) {
 }
 
 async function reset(req, res) {
+  console.log('resetting SETTINGS');
+
+  const settings = {
+    age: 25,
+    weight: 50,
+    height: 165,
+    startTime: 9,
+    endTime: 22,
+    reminder: 1,
+  };
+
   const userGID = req.headers['x-wapp-user'];
-  await User.findOne(
+
+   const user = await User.updateOne(
     {
       google_id: userGID,
     },
     {
-      age: 25,
-      weight: 50,
-      height: 165,
-      startTime: 900,
-      endTime: 2200,
-      reminder: 13,
+      settings,
     }
   ).catch((err) => console.log(err));
+
+
+
   res.status(204).send();
 }
 

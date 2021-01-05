@@ -53,6 +53,14 @@ async function verify(req, res) {
         refresh_token: tokens.refresh_token,
         id_token: tokens.id_token,
         expiry_date: tokens.expiry_date,
+        settings: {
+          age: 25,
+          weight: 50,
+          height: 165,
+          startTime: 9,
+          endTime: 22,
+          reminder: 1,
+        },
       });
     }
 
