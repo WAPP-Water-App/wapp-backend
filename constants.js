@@ -14,6 +14,7 @@ const scopes = ['https://www.googleapis.com/auth/userinfo.profile', 'openid', 'p
 function generateAuthUrl() {
   const url = oauth2Client.generateAuthUrl({
     access_type: 'offline',
+    prompt: "consent",
     scope: scopes,
   });
 
