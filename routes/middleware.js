@@ -27,7 +27,7 @@ async function validate(req, res, next) {
       const currentDate = new Date().valueOf();
 
       // 5 minutes until expiry
-      const minutes = 70;
+      const minutes = 5;
       // if expiry date is less than 5 minutes
       // refresh their token
       if (expiryDate - currentDate < minutes * 60 * 1000) {

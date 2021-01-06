@@ -30,6 +30,7 @@ async function verify(req, res) {
     .getToken(req.body.code)
     .catch(() => null);
 
+  console.log('tokens', tokens);
   // get the user data
   const userInfo = await axios
     .get(
