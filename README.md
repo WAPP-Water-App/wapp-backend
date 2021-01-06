@@ -1,6 +1,6 @@
 # WAPP - Water App API 💧
 ## Hydration Life Coach
-A web app that helps you calculate, schedule, and manage when to hydrate. Test it out at 👉 [https://wapp-water.herokuapp.com/](https://wapp-water.herokuapp.com/).
+A web app that helps you track, calculate, schedule, and manage when to hydrate. Test it out at 👉 [https://wapp-water.herokuapp.com/](https://wapp-water.herokuapp.com/).
 
 ## APIs
 > - 🎨 [Google OAuth](https://console.developers.google.com/)

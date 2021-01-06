@@ -38,6 +38,7 @@ async function getProfile(req, res) {
     .catch(() => null);
 
   if (!findUser) {
+    console.log("cant find user")
     unauthorized(res);
   } else {
     // get the user's information
@@ -45,7 +46,10 @@ async function getProfile(req, res) {
       .get(
         `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${findUser.access_token}`
       )
-      .catch(() => null);
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
 
     if (!userInfo) {
       unauthorized(res);
@@ -140,7 +144,7 @@ async function reset(req, res) {
 
   const userGID = req.headers['x-wapp-user'];
 
-   const user = await User.updateOne(
+  const user = await User.updateOne(
     {
       google_id: userGID,
     },
@@ -148,8 +152,6 @@ async function reset(req, res) {
       settings,
     }
   ).catch((err) => console.log(err));
-
-
 
   res.status(204).send();
 }
