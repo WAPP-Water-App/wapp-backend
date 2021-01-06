@@ -21,7 +21,6 @@ async function validate(req, res, next) {
       .limit(1)
       .catch(() => null);
 
-    console.log('getting user', getUser);
     if (getUser) {
       // compare the current and expiry date
       const expiryDate = new Date(getUser.expiry_date).valueOf();

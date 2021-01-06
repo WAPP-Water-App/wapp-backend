@@ -30,7 +30,7 @@ async function getData(req, res) {
   if (!userData) {
     console.log('error getting all user data');
   }
-  res.json(userData);
+  res.status(200).json(userData);
 }
 
 // gets the data
