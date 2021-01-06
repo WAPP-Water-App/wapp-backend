@@ -15,7 +15,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 // ROUTES
 router.get('/', authorize);
 router.post('/verify', verify);
-router.put('/refresh', refresh);
+// router.put('/refresh', refresh);
 
 // FUNCTIONS
 
@@ -69,21 +69,21 @@ async function verify(req, res) {
   }
 }
 
-async function refresh(req, res) {
-  const response = await axios({
-    method: 'POST',
-    url: 'https://oauth2.googleapis.com/token',
-    data: {
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
-      grant_type: 'refresh_token',
-      refresh_token:
-        '1//0dNauiCHVZyBPCgYIARAAGA0SNwF-L9IrwnIepUbK1-wGDbaAyUZh0ECNNeKYUUqAP_c1sqRRjjb4qBC8CrwH24zycdlLtiueM7M',
-    },
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  }).catch(() => null);
-}
+// async function refresh(req, res) {
+//   const response = await axios({
+//     method: 'POST',
+//     url: 'https://oauth2.googleapis.com/token',
+//     data: {
+//       client_id: process.env.CLIENT_ID,
+//       client_secret: process.env.CLIENT_SECRET,
+//       grant_type: 'refresh_token',
+//       refresh_token:
+//         '1//0dNauiCHVZyBPCgYIARAAGA0SNwF-L9IrwnIepUbK1-wGDbaAyUZh0ECNNeKYUUqAP_c1sqRRjjb4qBC8CrwH24zycdlLtiueM7M',
+//     },
+//     headers: {
+//       'Content-Type': 'application/x-www-form-urlencoded',
+//     },
+//   }).catch(() => null);
+// }
 
 module.exports = router;

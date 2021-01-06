@@ -27,7 +27,7 @@ async function validate(req, res, next) {
       const currentDate = new Date().valueOf();
 
       // 5 minutes until expiry
-      const minutes = 5;
+      const minutes = 70;
       // if expiry date is less than 5 minutes
       // refresh their token
       if (expiryDate - currentDate < minutes * 60 * 1000) {
@@ -41,6 +41,9 @@ async function validate(req, res, next) {
 }
 
 async function refresh(userGID, refreshToken) {
+
+  console.log('refresh', refreshToken)
+
   const response = await axios({
     method: 'POST',
     url: 'https://oauth2.googleapis.com/token',
@@ -67,6 +70,7 @@ async function refresh(userGID, refreshToken) {
         access_token: response.data.access_token,
         id_token: response.data.id_token,
         expiry_date: expiryDate.valueOf(),
+        refresh_token: refreshToken,
       }
     ).catch((err) => console.log(err));
   }
